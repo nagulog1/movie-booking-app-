@@ -26,12 +26,6 @@ const Payment = () => {
     return null;
   }
 
-  const generateTicketId = () => {
-    const timestamp = Date.now().toString(36).toUpperCase();
-    const random = Math.random().toString(36).substring(2, 8).toUpperCase();
-    return `TKT${timestamp}${random}`;
-  };
-
   const handlePayment = async (e) => {
     e.preventDefault();
     setProcessing(true);
