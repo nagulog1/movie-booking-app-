@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { moviesAPI, bookingsAPI } from '../services/api';
+import { moviesAPI } from '../services/api';
 import { AuthContext } from '../context/AuthContext';
 import './Booking.css';
 
@@ -10,7 +10,7 @@ const Booking = () => {
   const navigate = useNavigate();
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [showDate, setShowDate] = useState('');
+  const [showDate] = useState('');
   const [selectedShowtime, setSelectedShowtime] = useState(null);
   const [selectedSeats, setSelectedSeats] = useState([]);
 
