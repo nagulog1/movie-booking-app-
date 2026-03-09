@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { QRCodeSVG } from 'qrcode.react';
 import './Ticket.css';
 
 const Ticket = () => {
@@ -105,30 +106,20 @@ const Ticket = () => {
           <div className="ticket-footer">
             <div className="qr-code-section">
               <div className="qr-code-placeholder">
-                <svg viewBox="0 0 100 100" className="qr-svg">
-                  <rect x="10" y="10" width="15" height="15" fill="#0891b2"/>
-                  <rect x="30" y="10" width="5" height="5" fill="#0891b2"/>
-                  <rect x="40" y="10" width="10" height="10" fill="#0891b2"/>
-                  <rect x="55" y="10" width="5" height="5" fill="#0891b2"/>
-                  <rect x="75" y="10" width="15" height="15" fill="#0891b2"/>
-                  <rect x="10" y="30" width="5" height="5" fill="#0891b2"/>
-                  <rect x="20" y="30" width="5" height="5" fill="#0891b2"/>
-                  <rect x="30" y="30" width="15" height="15" fill="#0891b2"/>
-                  <rect x="50" y="30" width="5" height="5" fill="#0891b2"/>
-                  <rect x="75" y="30" width="5" height="5" fill="#0891b2"/>
-                  <rect x="85" y="30" width="5" height="5" fill="#0891b2"/>
-                  <rect x="10" y="50" width="10" height="10" fill="#0891b2"/>
-                  <rect x="25" y="50" width="5" height="5" fill="#0891b2"/>
-                  <rect x="35" y="50" width="10" height="10" fill="#0891b2"/>
-                  <rect x="50" y="50" width="15" height="15" fill="#0891b2"/>
-                  <rect x="70" y="50" width="5" height="5" fill="#0891b2"/>
-                  <rect x="80" y="50" width="10" height="10" fill="#0891b2"/>
-                  <rect x="10" y="75" width="15" height="15" fill="#0891b2"/>
-                  <rect x="30" y="75" width="5" height="5" fill="#0891b2"/>
-                  <rect x="40" y="75" width="15" height="15" fill="#0891b2"/>
-                  <rect x="60" y="75" width="10" height="10" fill="#0891b2"/>
-                  <rect x="75" y="75" width="15" height="15" fill="#0891b2"/>
-                </svg>
+                <QRCodeSVG 
+                  value={JSON.stringify({
+                    ticketId: ticketData.ticketId,
+                    movieTitle: ticketData.movieTitle,
+                    showDateTime: ticketData.showDateTime,
+                    seats: ticketData.seats,
+                    theater: ticketData.theaterName
+                  })}
+                  size={180}
+                  level="H"
+                  includeMargin={true}
+                  bgColor="#ffffff"
+                  fgColor="#0891b2"
+                />
               </div>
               <p className="qr-instruction">Scan this QR code at the theater entrance</p>
             </div>
