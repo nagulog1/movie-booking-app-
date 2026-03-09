@@ -125,7 +125,9 @@ const Booking = () => {
           seats: selectedSeats,
           showDate: showDate || new Date().toISOString().split('T')[0],
           showTime: `${selectedShowtime.time} - ${selectedShowtime.screen}`,
-          totalPrice
+          totalPrice,
+          theaterName: `${theaterInfo.name}, ${theaterInfo.location}`,
+          screenType: selectedShowtime.screen
         }
       }
     });

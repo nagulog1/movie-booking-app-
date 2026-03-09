@@ -1,10 +1,17 @@
 const Booking = require('../models/Booking');
 const Movie = require('../models/Movie');
 
+// Generate unique ticket ID
+const generateTicketId = () => {
+  const timestamp = Date.now().toString(36).toUpperCase();
+  const random = Math.random().toString(36).substring(2, 8).toUpperCase();
+  return `TKT-${timestamp}-${random}`;
+};
+
 // Create booking
 exports.createBooking = async (req, res) => {
   try {
-    const { movieId, seats, showDate, showTime, totalPrice } = req.body;
+    const { movieId, seats, showDate, showTime, totalPrice, theaterName, screenType, paymentMethod } = req.body;
 
     // Verify movie exists
     const movie = await Movie.findById(movieId);
@@ -13,12 +20,17 @@ exports.createBooking = async (req, res) => {
     }
 
     const booking = new Booking({
+      ticketId: generateTicketId(),
       user: req.userId,
       movie: movieId,
       seats,
       showDate,
       showTime,
-      totalPrice
+      totalPrice,
+      theaterName: theaterName || 'PVR Cinemas',
+      screenType: screenType || 'IMAX',
+      paymentMethod: paymentMethod || 'card',
+      paymentTime: new Date()
     });
 
     await booking.save();

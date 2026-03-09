@@ -138,6 +138,28 @@
   color: var(--primary);
 }
 
+.booking-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.booking-view-ticket-btn {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.booking-view-ticket-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(8, 145, 178, 0.4);
+}
+
 .booking-cancel-btn {
   background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
   color: white;
@@ -169,6 +191,16 @@
   .booking-card-footer {
     flex-direction: column;
     gap: 15px;
-    align-items: start;
+    align-items: stretch;
+  }
+
+  .booking-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .booking-view-ticket-btn,
+  .booking-cancel-btn {
+    width: 100%;
   }
 }

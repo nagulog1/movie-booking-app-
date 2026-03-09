@@ -40,10 +40,14 @@ const Payment = () => {
       // Simulate payment processing delay
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      // Create booking in database
-      await bookingsAPI.create(bookingData.bookingData);
+      // Create booking in database with payment method
+      const bookingResponse = await bookingsAPI.create({
+        ...bookingData.bookingData,
+        paymentMethod
+      });
       
-      const ticketId = generateTicketId();
+      // Get the ticketId from the backend response
+      const ticketId = bookingResponse.data.booking.ticketId;
       
       // Navigate to ticket page with booking details and ticket ID
       navigate('/ticket', {

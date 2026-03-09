@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const bookingSchema = new mongoose.Schema({
+  ticketId: {
+    type: String,
+    unique: true,
+    required: true
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -30,6 +35,23 @@ const bookingSchema = new mongoose.Schema({
   showTime: {
     type: String,
     required: true
+  },
+  theaterName: {
+    type: String,
+    default: 'PVR Cinemas'
+  },
+  screenType: {
+    type: String,
+    default: 'IMAX'
+  },
+  paymentMethod: {
+    type: String,
+    enum: ['card', 'upi', 'netbanking'],
+    default: 'card'
+  },
+  paymentTime: {
+    type: Date,
+    default: Date.now
   },
   status: {
     type: String,

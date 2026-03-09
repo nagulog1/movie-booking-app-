@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { bookingsAPI } from '../services/api';
 import './MyBookings.css';
 
 const MyBookings = () => {
+  const navigate = useNavigate();
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -35,6 +37,38 @@ const MyBookings = () => {
     }
   };
 
+  const handleViewTicket = (booking) => {
+    // Format booking data to match ticket component expectations
+    const formatDateTime = (date, time) => {
+      const bookingDate = new Date(date);
+      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      
+      const dayName = days[bookingDate.getDay()];
+      const day = bookingDate.getDate();
+      const month = months[bookingDate.getMonth()];
+      const year = bookingDate.getFullYear();
+      
+      return `${dayName}, ${String(day).padStart(2, '0')} ${month}, ${year} | ${time}`;
+    };
+
+    const ticketData = {
+      ticketId: booking.ticketId,
+      movieTitle: booking.movie?.title || 'Unknown Movie',
+      movieLanguage: booking.movie?.language || 'English',
+      theaterName: booking.theaterName || 'PVR Cinemas',
+      showDateTime: formatDateTime(booking.showDate, booking.showTime),
+      screenType: booking.screenType || 'IMAX',
+      seats: booking.seats.join(', '),
+      numberOfSeats: booking.seats.length,
+      totalPrice: booking.totalPrice,
+      paymentMethod: booking.paymentMethod || 'card',
+      paymentTime: booking.paymentTime || booking.bookingDate
+    };
+
+    navigate('/ticket', { state: ticketData });
+  };
+
   if (loading) return <div className="my-bookings-container"><p>Loading...</p></div>;
   if (error) return <div className="my-bookings-container"><p style={{ color: 'var(--danger)' }}>{error}</p></div>;
 
@@ -56,6 +90,10 @@ const MyBookings = () => {
                 </span>
               </div>
               <div className="booking-card-details">
+                <div className="booking-detail-item">
+                  <div className="booking-detail-label">Ticket ID</div>
+                  <div className="booking-detail-value">{booking.ticketId}</div>
+                </div>
                 <div className="booking-detail-item">
                   <div className="booking-detail-label">Date</div>
                   <div className="booking-detail-value">
@@ -83,14 +121,24 @@ const MyBookings = () => {
                 <div className="booking-total-price">
                   Total: ₹{booking.totalPrice}
                 </div>
-                {booking.status === 'confirmed' && (
-                  <button 
-                    onClick={() => handleCancel(booking._id)}
-                    className="booking-cancel-btn"
-                  >
-                    Cancel Booking
-                  </button>
-                )}
+                <div className="booking-actions">
+                  {booking.status === 'confirmed' && (
+                    <>
+                      <button 
+                        onClick={() => handleViewTicket(booking)}
+                        className="booking-view-ticket-btn"
+                      >
+                        View Ticket
+                      </button>
+                      <button 
+                        onClick={() => handleCancel(booking._id)}
+                        className="booking-cancel-btn"
+                      >
+                        Cancel Booking
+                      </button>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           ))}
